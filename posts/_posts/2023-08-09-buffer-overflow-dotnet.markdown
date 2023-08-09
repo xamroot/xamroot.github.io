@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Playing with buffer overflows in .NET"
+title:	"dotnetoverflows
 date:   2023-08-09 08:55:15 -0700
 categories: jekyll update
 ---
