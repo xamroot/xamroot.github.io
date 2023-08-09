@@ -7,4 +7,4 @@ const getPosts = async () => {
     .then(res=>console.log(res));
 }
 
-await getPosts();
+getPosts();
