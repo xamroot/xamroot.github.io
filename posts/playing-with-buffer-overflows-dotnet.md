@@ -3,6 +3,7 @@ layout: page
 title: "Playing with buffer overflows in .NET"
 permalink: /playing-with-buffer-overflows-dotnet
 ---
+# Playing with buffer overflows in .NET
 ## Table of Contents
 [Introduction](#Introduction)
 
