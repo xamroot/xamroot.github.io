@@ -4,9 +4,10 @@ title: "Playing with buffer overflows in .NET"
 permalink: /playing-with-buffer-overflows-dotnet
 ---
 ## Table of Contents
-[Some text](#prerequisites)
+[Introduction](#Introduction)
 
-## Prerequisites
+## Introduction
+### Prerequisites
 .NET Framework
 Visual Studio
 Windbg
@@ -23,8 +24,8 @@ Now the goal is to overwrite the "saved return address" which will be on the sta
 
 That is all to say, we need to find and overwrite the return address.
 
-### Simple c# buffer overflow
-`
+## Simple c# buffer overflow
+```
 using System;
 public class Program
 {
@@ -56,10 +57,10 @@ public class Program
         }
     }
 }
-`
+```
 
-### Stackalloc c# buffer overflow
-`
+## Stackalloc c# buffer overflow
+```
 using System;
 public class Program
 {
@@ -91,4 +92,4 @@ public class Program
         }
     }
 }
-`
+```
