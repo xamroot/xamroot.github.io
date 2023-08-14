@@ -3,30 +3,18 @@ layout: page
 title: "Playing with buffer overflows in .NET"
 permalink: /playing-with-buffer-overflows-dotnet
 ---
+**[8/2023]** [**@xamroot**](https://twitter.com/xamroot)
 # Playing with buffer overflows in .NET
-## Table of Contents
-[Introduction](#Introduction)
-
-## Introduction
-### Prerequisites
+### Tools Used
 .NET Framework
 Visual Studio
 Windbg
 
 ### Why and how?
-Buffer overflows should not be possible in the C#/.NET world because they compile managed code. Thankfully there exists the *unsafe* keyword which will allow us to perform pointer operations on runtime memory.
-
-
-### Quick buffer overflow discussion
-Quickly lets outline the approach to exploiting a buffer overflow (in the plain C context)
-When a local variable is initialized in some function, the local variable's data will be placed onto the "stack" region of memory.
-After finding code vulnerable to a buffer overflow you could then overwrite any data on the stack which follows the variable being abused.
-Now the goal is to overwrite the "saved return address" which will be on the stack approx 0x10 bytes before the base pointer address (rbp/ebp). Once overwritten we can hijack the program's control flow.
-
-That is all to say, we need to find and overwrite the return address.
+Buffer overflows should not be possible in the C#/.NET world because they compile managed code. Thankfully there exists the *unsafe* keyword which will allow us to perform pointer operations on runtime memory. We are going to execute this, I have experience only with low level linux hacking. 
 
 ## Simple c# buffer overflow
-```
+```csharp
 using System;
 public class Program
 {
@@ -60,8 +48,11 @@ public class Program
 }
 ```
 
+## Attempting to find the saved return address
+Ran into the issue that the base pointer is VERY **VERY** far away from our **buffer** variable. Attempting to read 0xf0000 addresses past the **buffer** variable will eventually read a non-readable memory region, crashing the program. Further learning finds that C# local variables are not simply allocated onto the stack. For this, we need the **stackalloc** keyword. 
+
 ## Stackalloc c# buffer overflow
-```
+```csharp
 using System;
 public class Program
 {
@@ -94,3 +85,30 @@ public class Program
     }
 }
 ```
+
+Only one line of code needed to be changed.
+
+```csharp
+long[] buffer = new long[bufferSize];
+```
+
+Becomes
+
+```csharp
+Span<long> buffer = stackalloc long[bufferSize];
+```
+
+## Overwriting saved return address
+Debugging the new stackalloc code shows the **buffer** variable is now a reasonable distance from the base pointer. The console output shows us the address of **buffer**. The base pointer address can be found while debugging in Visual Studio using the *registers* debug window.
+
+| buffer | 0x701DBEE590 |
+|-----|-----|
+| **base pointer** | **0x701DBEE5B0** |
+
+Now the base pointer is only **0x20** bytes past **buffer**.
+
+| Overwriting the base pointer does not cause a crash??? |
+|-----|
+
+## What the hell is stackalloc
+## Crafting the payload
