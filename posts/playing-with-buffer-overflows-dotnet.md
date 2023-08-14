@@ -13,6 +13,7 @@ Windbg
 ### Why and how?
 Buffer overflows should not be possible in the C#/.NET world because they compile managed code. Thankfully there exists the *unsafe* keyword which will allow us to perform pointer operations on runtime memory. We are going to execute this, I have experience only with low level linux hacking. 
 
+
 ## Simple c# buffer overflow
 ```csharp
 using System;
@@ -50,6 +51,11 @@ public class Program
 
 ## Attempting to find the saved return address
 Ran into the issue that the base pointer is VERY **VERY** far away from our **buffer** variable. Attempting to read 0xf0000 addresses past the **buffer** variable will eventually read a non-readable memory region, crashing the program. Further learning finds that C# local variables are not simply allocated onto the stack. For this, we need the **stackalloc** keyword. 
+
+This is because the **new** keyword, following it's cpp standard, will instantiate the object in the heap.
+
+![image](https://xamroot.github.io/assets/playing-with-buffer-overflows-dotnet/gates-smug.png)
+
 
 ## Stackalloc c# buffer overflow
 ```csharp
