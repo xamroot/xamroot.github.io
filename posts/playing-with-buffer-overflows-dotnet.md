@@ -104,17 +104,19 @@ Becomes
 Span<long> buffer = stackalloc long[bufferSize];
 ```
 
-## Overwriting saved return address
+## Another problem with overwriting the saved return address
 Debugging the new stackalloc code shows the **buffer** variable is now a reasonable distance from the base pointer. The console output shows us the address of **buffer**. The base pointer address can be found while debugging in Visual Studio using the *registers* debug window.
 
-| buffer | 0x701DBEE590 |
-|-----|-----|
-| **base pointer** | **0x701DBEE5B0** |
+We can actually find the saved return address by placing a breakingpoint before Main() goes into our exploitable code. Then once inside the exploitable function we can examine the stack and look for the return address.
 
-Now the base pointer is only **0x20** bytes past **buffer**.
+The bytes between our controlled buffer and the saved return address is a fixed distance.
 
-| Overwriting the base pointer does not cause a crash??? |
-|-----|
+## WHY TF IS THERE AN Access Violation
+Hijacking control flow, and redirecting the execution to Winner.Win() causes an Access Violation. Though, this access violation ONLY occurs on the call to the MethodStubDesc instruction. That is all to say that ROP chains could easily be used.
+
+## Let's try a ROP chain
+**pop rax; ret** @ 0x0000000140013c02
+**pop rdi; ret** @ 0x0000000140001290
 
 ## What the hell is stackalloc
 ## Crafting the payload
