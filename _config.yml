@@ -17,8 +17,8 @@ title: xamroot blog
 email: toorm@mail.gvsu.edu
 description: >- # this means to ignore newlines until "baseurl:"
   get drunk start barrel fires
-baseurl: "xamroot.github.io/posts/" # the subpath of your site, e.g. /blog
-url: "https://xamroot.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "schizo-post.ing/" # the subpath of your site, e.g. /blog
+url: "https://www.schizo-post.ing" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
 
