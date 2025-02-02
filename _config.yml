@@ -24,7 +24,7 @@ github_username:  xamroot
 
 # Build settings
 markdown: kramdown
-theme: Cayman
+theme: minima
 plugins:
   - jekyll-feed
 
