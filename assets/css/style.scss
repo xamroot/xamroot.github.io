@@ -1,7 +1,12 @@
 ---
 ---
 
-@import "{{ site.theme }}";
+@import "{{ minima }}";
+
+body {
+    background-color: #1D1616;
+    color: #EEEEEE;
+}
 
 main {
     background-color: #1D1616;
